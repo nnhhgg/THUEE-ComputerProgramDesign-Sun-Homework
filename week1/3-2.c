@@ -23,6 +23,37 @@
 #include <string.h>
 #include <ctype.h>
 
+void pre(int *n1, int w1, int *n2, int w2, FILE *fout)
+{
+    char Cnum[10][20] =
+        {
+            "零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+    char Cpos[10][20] =
+        {
+            "个", "十", "百", "千", "万", "十万", "百万", "千万", "亿"};
+    int i;
+    int pos;
+    for (i = 0; i < w1; i++)
+    {
+        pos = w1 - 1 - i;
+        fprintf(fout, "%s", Cnum[*n1]);
+
+        if ((pos % 4) && pos)
+            fprintf(fout, "%s", Cpos[pos % 4]);
+        if (!(pos % 4) && pos)
+            fprintf(fout, "%s", Cpos[pos]);
+        n1++;
+    }
+
+    for (i = 0; i < w2; i++)
+    {
+        fprintf(fout, "%s", Cnum[*n2]);
+        n2++;
+    }
+    fprintf(fout, "\n");
+    return;
+}
+
 int main()
 {
     FILE *fin, *fout;
@@ -30,12 +61,7 @@ int main()
     int w1, w2;
     int n1[30], n2[30]; // n1.n2;
     int a;
-    char Cnum[10][20] =
-        {
-            "零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
-    char Cpos[10][20] =
-        {
-            "个", "十", "百", "千", "万", "十万", "百万", "千万", "亿"};
+
     fin = fopen("3.dat", "r");
     fout = fopen("3out.dat", "w");
     if (fin == NULL || fout == NULL)
@@ -69,26 +95,8 @@ int main()
                 }
             }
             w2 = i; // w2是n2的位数；
-            a = 0;
-            for (int t = ((w1 - 1) / 4); t >= 0; t--)
-            {
 
-                for (j = 0; j < w1 - (t * 4) && j < 4; j++)
-                {
-
-                    fprintf(fout, "%s", Cnum[n1[a]]);
-                    if ((w1 - a - 1) % 4)
-                        fprintf(fout, "%s", Cpos[(w1 - a - 1) % 4]);
-                    a++;
-                }
-                if (t)
-                    fprintf(fout, "%s", Cpos[t * 4]);
-            }
-            if (w2 > 0)
-                fprintf(fout, "点");
-            for (int j = 0; j < w2; j++)
-                fprintf(fout, "%s", Cnum[n2[j]]);
-            fprintf(fout, "\n");
+            pre(n1, w1, n2, w2, fout);
         }
         else
             c = fgetc(fin);
