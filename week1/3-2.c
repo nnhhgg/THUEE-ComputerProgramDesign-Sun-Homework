@@ -33,13 +33,39 @@ void pre(int *n1, int w1, int *n2, int w2, FILE *fout)
             "个", "十", "百", "千", "万", "十万", "百万", "千万", "亿"};
     int i;
     int pos;
+    int flag = 0;
     for (i = 0; i < w1; i++)
     {
         pos = w1 - 1 - i;
-        fprintf(fout, "%s", Cnum[*n1]);
 
-        if ((pos % 4) && pos)
-            fprintf(fout, "%s", Cpos[pos % 4]);
+        switch (flag)
+        {
+        case (1): // 一直到这里是0；
+        {
+            if (*n1)
+            {
+                fprintf(fout, "零");
+
+                fprintf(fout, "%s", Cnum[*n1]);
+                if (pos % 4)
+                    fprintf(fout, "%s", Cpos[pos % 4]);
+                flag = 0;
+            }
+            else if (!*n1)
+                ;
+        }
+        case (0):
+        {
+            if (*n1 == 0)
+                flag = 1;
+            else
+            {
+                fprintf(fout, "%s", Cnum[*n1]);
+                if (pos % 4)
+                    fprintf(fout, "%s", Cpos[pos % 4]);
+            }
+        }
+        }
         if (!(pos % 4) && pos)
             fprintf(fout, "%s", Cpos[pos]);
         n1++;
