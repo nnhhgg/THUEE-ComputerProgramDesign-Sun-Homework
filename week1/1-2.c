@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct node
 {
@@ -14,6 +15,37 @@ typedef struct node
     int t;
     struct node *next;
 } NODE;
+
+int isAlpha(char c)
+{
+    if ((c <= 'Z' && c >= 'A') || (c <= 'z' && c >= 'a'))
+        return (1);
+    else
+        return (0);
+}
+
+int toWord(char *c)
+{
+    int left = 0, right = 19;
+    int i = 0;
+    char temp[20];
+    strcpy(temp, c);
+    while ((left < 20) && (!isAlpha(c[left])))
+        left++;
+    while ((right > -1) && (!isAlpha(c[right])))
+        right--;
+    if (left == 20)
+        return (0); // 意味着没有c里面没有字母；
+    else
+    {
+        for (i = 0; i < right - left + 1; i++)
+        {
+            c[i] = temp[left + i];
+        }
+        c[i] = '\0';
+        return (1);
+    }
+}
 
 NODE *lstend(NODE *head)
 {
@@ -89,8 +121,13 @@ int main()
     }
     while (!feof(fp))
     {
+        for (int i = 0; i < 20; i++)
+        {
+            str[i] = '\0';
+        }
         fscanf(fp, "%s", str);
-
+        if (toWord(str) == 0)
+            continue;
         temp = lstfind(str, head);
         if (temp == NULL)
         {

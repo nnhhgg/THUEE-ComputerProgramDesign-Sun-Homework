@@ -1,4 +1,4 @@
-
-the facilities provided by C, C++ provides additional data types, classes, templates, exceptions, namespaces,
-operator overloading, function name overloading, references, free store management operators, and additional
-library facilities.
+This International Standard specifies requirements for implementations of the C++programming language.
+The first such requirement is that they implement the language, 
+and so this International Standard alsodefines C++. 
+Other requirements and relaxations of the first requirement appear at various places withinthis International Standard.
