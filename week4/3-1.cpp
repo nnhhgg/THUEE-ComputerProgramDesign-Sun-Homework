@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cmath>
 #include <cstdlib>
+#include <cmath>
 using namespace std;
 
 class List
@@ -134,7 +135,8 @@ int List::Swap(int i, int j)
 {
     if (i == j)
         return (1);
-    if (j == 0)
+
+    if (i > j)
     {
         int temp = i;
         i = j;
@@ -142,7 +144,7 @@ int List::Swap(int i, int j)
     }
 
     ListNode *p = first, *q = first;
-    for (int a; a < i - 1; a++)
+    for (int a = 0; a < i - 1; a++)
     {
         if (p == NULL)
         {
@@ -152,7 +154,7 @@ int List::Swap(int i, int j)
         else
             p = p->next;
     }
-    for (int b; b < j - 1; b++)
+    for (int b = 0; b < j - 1; b++)
     {
         if (q == NULL)
         {
@@ -179,7 +181,7 @@ int List::Swap(int i, int j)
         }
         first = temp;
     }
-    else
+    else if ((i - j) > 1 || (j - i) > 1)
     {
         ListNode *p1 = p->next,
                  *q1 = q->next;
@@ -194,6 +196,15 @@ int List::Swap(int i, int j)
             q1->next = t;
         }
     }
+    else
+    {
+        ListNode *p1 = p->next,
+                 *q1 = q->next;
+        p->next = q1;
+        p1->next = q1->next;
+        q1->next = p1;
+    }
+
     return (1);
 }
 int List::Len()
@@ -211,7 +222,10 @@ int List::GetData(int &x, int i)
 {
     current = first;
     if (i == 0)
-        return (first->data);
+    {
+        x = first->data;
+        return 1;
+    }
     else
     {
         for (int k = 0; k < i - 1; k++)
@@ -258,13 +272,19 @@ int List::Sort()
 int main()
 {
     class List a;
-    a.Insert(1, 0);
-    a.Insert(2, 0);
-    a.Insert(3, 0);
+    int t;
+    for (int k = 0; k < 8; k++)
+    {
+        a.Insert(k, 0);
+    }
     a.Print();
     a.Swap(0, 1);
     a.Print();
     a.Swap(1, 2);
+    a.Print();
+    a.Swap(2, 3);
+    a.Print();
+    a.Swap(6, 7);
     a.Print();
     a.Sort();
     a.Print();

@@ -20,7 +20,7 @@ public:
     }
     ~Point()
     {
-        cout << "destruct complete ";
+        cout << "destructor ";
         Print();
         cout << endl;
     }
@@ -51,17 +51,17 @@ class Ball
 public:
     Ball(int a = 0, int b = 0, int c = 0, int r = 0) : o(a, b, c)
     {
-        cout << "construct complete" << endl;
+        cout << "constructor " << endl;
         Ball::r = r;
     }
     Ball(const Ball &A) : o(A.o)
     {
-        cout << "copy construct complete" << endl;
+        // cout << "copy constructor " << endl;
         r = A.r;
     }
     ~Ball()
     {
-        cout << "destruct complete ";
+        cout << "destructor ";
         cout << o.GetX() << ',' << o.GetY() << ',' << o.GetZ() << ',' << r << endl;
     }
     void Set(int a, int b, int c, int r)
